@@ -1,0 +1,34 @@
+{
+	"manifest_version": 3,
+	"name": "Productivity & Screen-Time Tracker",
+	"version": "1.0.0",
+	"description": "Track active browsing time, site/category stats, limits, and insights.",
+	"permissions": [
+		"tabs",
+		"windows",
+		"storage",
+		"idle",
+		"notifications",
+		"alarms"
+	],
+	"host_permissions": ["<all_urls>"],
+	"background": {
+		"service_worker": "background.js"
+	},
+	"action": {
+		"default_popup": "popup.html"
+	},
+	"options_page": "dashboard.html",
+	"content_scripts": [
+		{
+			"matches": ["*://*.youtube.com/*"],
+			"js": ["content.js"],
+			"run_at": "document_idle"
+		},
+		{
+			"matches": ["<all_urls>"],
+			"js": ["idle-debug-pill.js"],
+			"run_at": "document_idle"
+		}
+	]
+}

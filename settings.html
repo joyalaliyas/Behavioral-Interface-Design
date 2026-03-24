@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Productivity Settings</title>
+    <style>
+      :root {
+        --bg: #f3f7fb;
+        --panel: #ffffff;
+        --text: #1f2734;
+        --muted: #66758a;
+        --border: #d6deeb;
+        --accent: #0f6ad9;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: radial-gradient(circle at 20% -10%, #dceaff, transparent 40%),
+          radial-gradient(circle at 90% 10%, #e3f7e6, transparent 40%),
+          var(--bg);
+        color: var(--text);
+        font-family: Segoe UI, Tahoma, sans-serif;
+      }
+      .container { max-width: 1080px; margin: 0 auto; padding: 18px; }
+      .title { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+      h1 { margin: 0; font-size: 28px; }
+      .sub { color: var(--muted); font-size: 13px; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        margin-top: 14px;
+      }
+      h2 { margin: 0 0 10px; font-size: 16px; }
+      textarea, input[type="number"], input[type="text"], input[type="password"], select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px;
+        font-size: 13px;
+        background: #fff;
+      }
+      textarea { min-height: 70px; resize: vertical; }
+      .formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .settingRow { margin-bottom: 10px; }
+      .labelRow { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+      .toggleRow { display: flex; gap: 16px; font-size: 13px; margin-top: 6px; flex-wrap: wrap; }
+      button {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: #fff;
+        color: var(--text);
+        padding: 9px 12px;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+      .status { font-size: 12px; color: var(--muted); margin-top: 8px; }
+      @media (max-width: 900px) {
+        .formGrid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <div>
+          <h1>Settings</h1>
+          <div class="sub">Configure categories, limits, focus controls, and AI provider.</div>
+        </div>
+        <div class="actions">
+          <button id="openDashboard">Back to dashboard</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Categories and limits</h2>
+        <div class="formGrid">
+          <div class="settingRow">
+            <div class="labelRow">Productive domains (comma separated)</div>
+            <textarea id="catProductive"></textarea>
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Learning domains</div>
+            <textarea id="catLearning"></textarea>
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Entertainment domains</div>
+            <textarea id="catEntertainment"></textarea>
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Social domains</div>
+            <textarea id="catSocial"></textarea>
+          </div>
+        </div>
+
+        <div class="formGrid">
+          <div class="settingRow">
+            <div class="labelRow">Category limits (one per line, e.g. Entertainment=60)</div>
+            <textarea id="categoryLimitsMap"></textarea>
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Domain limits (one per line, e.g. youtube.com=60)</div>
+            <textarea id="domainLimitsMap"></textarea>
+          </div>
+        </div>
+
+        <div class="toggleRow">
+          <label><input type="checkbox" id="alertEnabled" /> Alerts enabled</label>
+          <label><input type="checkbox" id="blockAfterLimit" /> Block tab after limit</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>YouTube focus controls</h2>
+        <div class="toggleRow">
+          <label><input type="checkbox" id="blurThumbnails" /> Blur thumbnails</label>
+          <label><input type="checkbox" id="hideRecommendations" /> Hide recommendations</label>
+          <label><input type="checkbox" id="hideLikes" /> Hide likes</label>
+          <label><input type="checkbox" id="hideComments" /> Hide comments</label>
+          <label><input type="checkbox" id="doomEnabled" /> Doom-scroll detector enabled</label>
+        </div>
+        <div class="formGrid">
+          <div class="settingRow">
+            <div class="labelRow">Shorts block timer (minutes, 0 = no usage)</div>
+            <input id="shortsBlockSeconds" type="number" min="0" max="120" step="1" />
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Cooldown timeout (seconds)</div>
+            <input id="doomCooldownSeconds" type="number" min="10" max="180" />
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Warning score / Trigger score</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <input id="doomWarningScore" type="number" min="30" max="90" />
+              <input id="doomTriggerScore" type="number" min="40" max="100" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>AI provider</h2>
+        <div class="toggleRow">
+          <label><input type="checkbox" id="aiEnabled" /> Enable AI insights</label>
+        </div>
+        <div class="formGrid">
+          <div class="settingRow">
+            <div class="labelRow">Provider</div>
+            <select id="aiProvider"></select>
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Model</div>
+            <select id="aiModel"></select>
+          </div>
+        </div>
+        <div class="settingRow">
+          <div class="labelRow">Endpoint (auto-selected from provider)</div>
+          <input id="aiEndpoint" type="text" readonly />
+        </div>
+        <div class="settingRow">
+          <div class="labelRow">API key</div>
+          <input id="aiApiKey" type="password" />
+        </div>
+        <div class="settingRow">
+          <div class="labelRow">System prompt</div>
+          <textarea id="aiSystemPrompt"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>YouTube context-shift guard</h2>
+        <div class="sub">Warns when you jump from learning/productive videos to distracting ones, then blocks if you continue.</div>
+        <div class="toggleRow">
+          <label><input type="checkbox" id="ytShiftEnabled" /> Enable YouTube shift guard</label>
+          <label><input type="checkbox" id="ytShiftAiEnabled" /> Use AI classification</label>
+        </div>
+        <div class="formGrid">
+          <div class="settingRow">
+            <div class="labelRow">Warn countdown (seconds)</div>
+            <input id="ytShiftWarnSeconds" type="number" min="2" max="20" />
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Block duration (seconds)</div>
+            <input id="ytShiftBlockSeconds" type="number" min="10" max="300" />
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Allow-once cooldown (seconds)</div>
+            <input id="ytShiftCooldownSeconds" type="number" min="10" max="1800" />
+          </div>
+          <div class="settingRow">
+            <div class="labelRow">Severity needed to block</div>
+            <select id="ytShiftSeverityThreshold">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+        <div class="settingRow">
+          <div class="labelRow">Monitored transitions (one per line, e.g. Learning->Entertainment)</div>
+          <textarea id="ytShiftMonitoredPairs"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="actions">
+          <button class="primary" id="saveSettings">Save settings</button>
+          <button id="exportCsv">Export CSV</button>
+          <button id="exportJson">Export JSON</button>
+          <button id="clearData">Clear data</button>
+        </div>
+        <div class="status" id="status"></div>
+      </div>
+    </div>
+    <script src="settings.js"></script>
+  </body>
+</html>

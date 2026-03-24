@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Productivity Tracker</title>
+        <style>
+            :root {
+                --bg: #f5f7fb;
+                --panel: #ffffff;
+                --text: #20252f;
+                --muted: #5f6b7c;
+                --good: #17803d;
+                --bad: #b54708;
+                --border: #d7deea;
+            }
+            * { box-sizing: border-box; }
+            body {
+                margin: 0;
+                width: 360px;
+                font-family: Segoe UI, Tahoma, sans-serif;
+                background: linear-gradient(160deg, #f2f6ff 0%, #f8fafc 45%, #eef7f2 100%);
+                color: var(--text);
+            }
+            .wrap { padding: 14px; }
+            .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+            h1 { font-size: 16px; margin: 0; }
+            .date { font-size: 12px; color: var(--muted); }
+            .card {
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 12px;
+                margin-bottom: 10px;
+            }
+            .total { font-size: 26px; font-weight: 700; margin: 2px 0 0; }
+            .meta { font-size: 12px; color: var(--muted); }
+            .split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+            .pill { border-radius: 10px; padding: 8px; border: 1px solid var(--border); }
+            .pill .label { font-size: 12px; color: var(--muted); }
+            .pill .val { font-size: 14px; font-weight: 700; }
+            .good { color: var(--good); }
+            .bad { color: var(--bad); }
+            .list { margin: 0; padding: 0; list-style: none; }
+            .list li { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; padding: 4px 0; }
+            .domain { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+            button {
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                background: #fff;
+                color: var(--text);
+                padding: 9px 10px;
+                font-size: 13px;
+                cursor: pointer;
+            }
+            button.primary { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+            #status { font-size: 12px; color: var(--muted); margin-top: 8px; }
+        </style>
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="head">
+                <h1>Today</h1>
+                <div class="date" id="todayDate"></div>
+            </div>
+
+            <div class="card">
+                <div class="meta">Active browsing time</div>
+                <div class="total" id="totalTime">0m</div>
+                <div class="split">
+                    <div class="pill">
+                        <div class="label">Productive</div>
+                        <div class="val good" id="productiveTime">0m</div>
+                    </div>
+                    <div class="pill">
+                        <div class="label">Distracting</div>
+                        <div class="val bad" id="distractingTime">0m</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="meta">Top sites</div>
+                <ul class="list" id="topSites"></ul>
+            </div>
+
+            <div class="actions">
+                <button class="primary" id="openDashboard">Open dashboard</button>
+                <button id="refreshBtn">Refresh</button>
+            </div>
+            <div id="status"></div>
+        </div>
+        <script src="popup.js"></script>
+    </body>
+</html>
